@@ -97,8 +97,8 @@ class _SignupState extends State<Signup> {
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
-                          hintText: 'User name',
-                          hintStyle: TextStyle(
+                          labelText: 'User name',
+                          labelStyle: TextStyle(
                             color: const Color.fromRGBO(0, 0, 0, 0.5),
                           ),
                           enabledBorder: OutlineInputBorder(
@@ -125,8 +125,8 @@ class _SignupState extends State<Signup> {
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
-                          hintText: 'Email Adress',
-                          hintStyle: TextStyle(
+                          labelText: 'Email Adress',
+                          labelStyle: TextStyle(
                             color: const Color.fromRGBO(0, 0, 0, 0.5),
                           ),
                           enabledBorder: OutlineInputBorder(
@@ -164,13 +164,13 @@ class _SignupState extends State<Signup> {
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
-                          hintText: 'Category',
+                          labelText: 'Category',
                           enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
                               borderSide: BorderSide(
                                   width: 2,
                                   color: Color.fromRGBO(245, 222, 179, 1))),
-                          hintStyle: TextStyle(
+                          labelStyle: TextStyle(
                             color: Colors.blue,
                           ),
                           focusedBorder: OutlineInputBorder(
@@ -187,11 +187,12 @@ class _SignupState extends State<Signup> {
                     Padding(
                       padding: const EdgeInsets.only(left: 50, right: 50),
                       child: TextField(
+                        obscureText: true,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: const Color.fromRGBO(255, 255, 255, 1),
-                          hintText: 'Password',
-                          hintStyle: TextStyle(
+                          labelText: 'Password',
+                          labelStyle: TextStyle(
                             color: const Color.fromRGBO(0, 0, 0, 0.5),
                           ),
                           enabledBorder: OutlineInputBorder(

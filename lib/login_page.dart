@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
+import 'package:real_estate_app/home_page.dart';
 import 'package:real_estate_app/signup_page.dart';
 
 class Login1 extends StatefulWidget {
@@ -93,8 +94,8 @@ class _Login1State extends State<Login1> {
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
-                          hintText: 'User name',
-                          hintStyle: TextStyle(
+                          labelText: 'User name',
+                          labelStyle: TextStyle(
                             color: const Color.fromRGBO(0, 0, 0, 0.5),
                           ),
                           enabledBorder: OutlineInputBorder(
@@ -118,11 +119,12 @@ class _Login1State extends State<Login1> {
                     Padding(
                       padding: const EdgeInsets.only(left: 50, right: 50),
                       child: TextField(
+                        obscureText: true,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: const Color.fromRGBO(255, 255, 255, 1),
-                          hintText: 'Password',
-                          hintStyle: TextStyle(
+                          labelText: 'Password',
+                          labelStyle: TextStyle(
                             color: const Color.fromRGBO(0, 0, 0, 0.5),
                           ),
                           enabledBorder: OutlineInputBorder(
@@ -144,7 +146,9 @@ class _Login1State extends State<Login1> {
                       height: 20,
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(HomePage());
+                      },
                       child: Text(
                         'SIGN IN',
                         style: TextStyle(
