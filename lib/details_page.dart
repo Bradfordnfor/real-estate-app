@@ -2,7 +2,8 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:get/get.dart';
+import 'package:real_estate_app/add_home.dart';
 import 'package:real_estate_app/appbar.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -15,9 +16,6 @@ class DetailsPage extends StatefulWidget {
 class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
-    final h = MediaQuery.of(context).size.height;
-    final w = MediaQuery.of(context).size.width;
-
     return Scaffold(
       backgroundColor: Color.fromRGBO(245, 222, 179, 0.3),
       appBar: PreferredSize(
@@ -68,6 +66,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 ),
               ),
               ExpandableText(
+                maxLines: 1,
                 linkEllipsis: true,
                 linkColor: Colors.blue,
                 expandText: "show more",
@@ -141,7 +140,9 @@ class _DetailsPageState extends State<DetailsPage> {
                         color: Colors.blue,
                         borderRadius: BorderRadius.circular(25)),
                     child: TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.to(AddAHome());
+                        },
                         child: Text(
                           'RENT NOW',
                           style: GoogleFonts.raleway(

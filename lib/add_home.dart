@@ -10,6 +10,8 @@ class AddAHome extends StatefulWidget {
 }
 
 class _AddAHomeState extends State<AddAHome> {
+  String? _homeType;
+  List homeTypes = ['Single rooms', 'studio', 'apartment'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +38,19 @@ class _AddAHomeState extends State<AddAHome> {
             ),
             Padding(
               padding: const EdgeInsets.all(20.0),
-              child: TextField(
+              child: DropdownButtonFormField(
+                items: homeTypes.map((_homeType) {
+                  return DropdownMenuItem(
+                    value: _homeType,
+                    child: Text(_homeType),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _homeType = value as String;
+                  });
+                },
+                value: _homeType,
                 decoration: InputDecoration(
                   labelText: 'Home Type',
                   labelStyle: GoogleFonts.raleway(
@@ -54,7 +68,6 @@ class _AddAHomeState extends State<AddAHome> {
                       ),
                       borderRadius: BorderRadius.circular(10)),
                 ),
-                cursorColor: Color.fromRGBO(245, 222, 179, 0.5),
                 style: TextStyle(color: Colors.black),
               ),
             ),
@@ -78,7 +91,6 @@ class _AddAHomeState extends State<AddAHome> {
                       ),
                       borderRadius: BorderRadius.circular(10)),
                 ),
-                cursorColor: Color.fromRGBO(245, 222, 179, 0.5),
                 style: TextStyle(color: Colors.black),
               ),
             ),
@@ -102,7 +114,6 @@ class _AddAHomeState extends State<AddAHome> {
                       ),
                       borderRadius: BorderRadius.circular(10)),
                 ),
-                cursorColor: Color.fromRGBO(245, 222, 179, 0.5),
                 style: TextStyle(color: Colors.black),
               ),
             ),
@@ -127,7 +138,6 @@ class _AddAHomeState extends State<AddAHome> {
                       ),
                       borderRadius: BorderRadius.circular(10)),
                 ),
-                cursorColor: Color.fromRGBO(245, 222, 179, 0.5),
                 style: TextStyle(color: Colors.black),
               ),
             ),
