@@ -111,6 +111,8 @@ class _GridItemsState extends State<GridItems> {
           return Card(
             color: Colors.blue,
             elevation: 5,
+
+            // ignore: deprecated_member_use
             shadowColor: Colors.grey.withOpacity(0.5),
             child: Column(
               children: [

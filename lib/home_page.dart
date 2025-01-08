@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 import 'package:real_estate_app/appbar.dart';
 import 'package:real_estate_app/grid_items.dart';
 

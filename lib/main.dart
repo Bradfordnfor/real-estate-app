@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:real_estate_app/add_home.dart';
-import 'package:real_estate_app/details_page.dart';
-import 'package:real_estate_app/home_page.dart';
+
 import 'package:get/get.dart';
 import 'package:real_estate_app/signup_page.dart';
 

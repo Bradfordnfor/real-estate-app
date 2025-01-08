@@ -101,31 +101,31 @@ class _DetailsPageState extends State<DetailsPage> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(5.0),
-                          child: Container(
-                            // decoration: BoxDecoration(
-                            //     color: Colors.blue,
-                            //     borderRadius: BorderRadius.circular(15)),
-                            child: IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.call,
-                                  // color: Colors.white,
-                                )),
-                          ),
+                          // child: Container(
+                          // decoration: BoxDecoration(
+                          //     color: Colors.blue,
+                          //     borderRadius: BorderRadius.circular(15)),
+                          child: IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.call,
+                                // color: Colors.white,
+                              )),
+                          // ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(5.0),
-                          child: Container(
-                            // decoration: BoxDecoration(
-                            //     color: Colors.blue,
-                            //     borderRadius: BorderRadius.circular(15)),
-                            child: IconButton(
-                                onPressed: () {},
-                                icon: Icon(
-                                  FontAwesomeIcons.whatsapp,
-                                  // color: Colors.white,
-                                )),
-                          ),
+                          // child: Container(
+                          // decoration: BoxDecoration(
+                          //     color: Colors.blue,
+                          //     borderRadius: BorderRadius.circular(15)),
+                          child: IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                FontAwesomeIcons.whatsapp,
+                                // color: Colors.white,
+                              )),
+                          // ),
                         ),
                       ],
                     ),
