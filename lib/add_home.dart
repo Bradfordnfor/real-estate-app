@@ -20,7 +20,7 @@ class _AddAHomeState extends State<AddAHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(245, 222, 179, 0.3),
+      backgroundColor: Colors.blue.shade50,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: MyAppBar(),
@@ -256,11 +256,11 @@ class _AddAHomeState extends State<AddAHome> {
                       Get.to(AddAhome2());
                     },
                     child: Text(
-                      'Next',
+                      'Proceed',
                       style: GoogleFonts.raleway(
                           fontWeight: FontWeight.w800,
                           color: Colors.white,
-                          fontSize: 17),
+                          fontSize: 15),
                     ))
               ],
             ),

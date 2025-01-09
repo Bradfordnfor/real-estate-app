@@ -138,7 +138,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     width: 150,
                     decoration: BoxDecoration(
                         color: Colors.blue,
-                        borderRadius: BorderRadius.circular(25)),
+                        borderRadius: BorderRadius.circular(15)),
                     child: TextButton(
                         onPressed: () {
                           Get.to(AddAHome());
