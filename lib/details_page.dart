@@ -14,6 +14,15 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
+  final List<Color> colors = [
+    Colors.blue,
+    Colors.green,
+    Colors.yellow,
+    Colors.orange,
+    Colors.purple,
+  ];
+  var _containerColor = Colors.blue;
+  int? _selectedIndex;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,25 +42,34 @@ class _DetailsPageState extends State<DetailsPage> {
                 child: Container(
                   height: 400,
                   decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: _selectedIndex != null
+                          ? colors[_selectedIndex! % colors.length]
+                          : Colors.blue,
                       borderRadius: BorderRadius.circular(20)),
                 ),
               ),
               SizedBox(
                 height: 150,
                 child: ListView.builder(
-                    itemCount: 5,
+                    itemCount: colors.length,
                     shrinkWrap: true,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Container(
-                          height: double.infinity,
-                          width: 200,
-                          decoration: BoxDecoration(
-                            color: Colors.blue,
-                            borderRadius: BorderRadius.circular(15),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _selectedIndex = index;
+                            });
+                          },
+                          child: Container(
+                            height: double.infinity,
+                            width: 200,
+                            decoration: BoxDecoration(
+                              color: colors[index % colors.length],
+                              borderRadius: BorderRadius.circular(15),
+                            ),
                           ),
                         ),
                       );

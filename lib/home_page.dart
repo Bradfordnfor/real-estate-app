@@ -50,8 +50,8 @@ class _HomePageState extends State<HomePage> {
                           textAlign: TextAlign.center,
                           cursorColor: const Color.fromRGBO(0, 0, 0, 0.5),
                           decoration: InputDecoration(
-                            hintText: 'Home type',
-                            hintStyle: TextStyle(
+                            labelText: 'Home type',
+                            labelStyle: TextStyle(
                               color: const Color.fromRGBO(0, 0, 0, 0.5),
                             ),
                             fillColor: Color.fromRGBO(0, 0, 0, 0),
@@ -86,8 +86,8 @@ class _HomePageState extends State<HomePage> {
                           textAlign: TextAlign.center,
                           cursorColor: const Color.fromRGBO(0, 0, 0, 0.5),
                           decoration: InputDecoration(
-                            hintText: 'Location',
-                            hintStyle: TextStyle(
+                            labelText: 'Location',
+                            labelStyle: TextStyle(
                               color: const Color.fromRGBO(0, 0, 0, 0.5),
                             ),
                             fillColor: Color.fromRGBO(0, 0, 0, 0),
@@ -133,8 +133,8 @@ class _HomePageState extends State<HomePage> {
                           textAlign: TextAlign.center,
                           cursorColor: const Color.fromRGBO(0, 0, 0, 0.5),
                           decoration: InputDecoration(
-                            hintText: 'Budget',
-                            hintStyle: TextStyle(
+                            labelText: 'Budget',
+                            labelStyle: TextStyle(
                               color: const Color.fromRGBO(0, 0, 0, 0.5),
                             ),
                             fillColor: Color.fromRGBO(0, 0, 0, 0),

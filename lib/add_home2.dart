@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gallery_picker/gallery_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:real_estate_app/appbar.dart';
+import 'package:real_estate_app/constants/app_colors.dart';
 
 class AddAhome2 extends StatefulWidget {
   const AddAhome2({super.key});
@@ -30,6 +32,7 @@ class _AddAhome2State extends State<AddAhome2> {
     });
   }
 
+  List<MediaFile> _selectedFiles = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -304,12 +307,76 @@ class _AddAhome2State extends State<AddAhome2> {
                         ),
                       ),
                       SizedBox(
-                        height: 30,
+                        height: 20,
                       ),
+                      GestureDetector(
+                        onTap: () async {
+                          List<MediaFile> propertyMedia =
+                              await GalleryPicker.pickMedia(context: context) ??
+                                  [];
+                          setState(() {
+                            _selectedFiles = propertyMedia;
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Container(
+                            height: 50,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: const Color.fromRGBO(19, 18, 18, 0.8),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 12,
+                              ),
+                              child: Row(
+                                children: [
+                                  Icon(
+                                    Icons.upload,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    'Upload images and videos of the property',
+                                    style: TextStyle(color: Colors.white),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      _selectedFiles != Null
+                          ? SizedBox(
+                              height: 100,
+                              child: ListView.builder(
+                                  padding: EdgeInsets.only(left: 10),
+                                  itemCount: _selectedFiles.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10.0, horizontal: 5),
+                                      child: Container(
+                                        height: 80,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                            color: AppColors.primaryColor),
+                                      ),
+                                    );
+                                  }),
+                            )
+                          : SizedBox(
+                              height: 30,
+                            ),
                       Center(
                         child: Container(
                           height: 50,
-                          width: 150,
+                          width: 300,
                           decoration: BoxDecoration(
                               color: Colors.blue,
                               borderRadius: BorderRadius.circular(15)),

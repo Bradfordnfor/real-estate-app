@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:real_estate_app/constants/app_colors.dart';
 
 class MyAppBar extends StatefulWidget {
   const MyAppBar({super.key});
@@ -13,8 +14,9 @@ class _MyAppBarState extends State<MyAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       iconTheme: IconThemeData(color: Colors.white),
+      elevation: 0,
       centerTitle: true,
-      backgroundColor: Colors.blue,
+      backgroundColor: AppColors.primaryColor,
       shadowColor: Colors.grey,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(

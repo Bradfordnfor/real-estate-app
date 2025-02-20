@@ -39,6 +39,8 @@ dependencies:
   expandable_text: ^2.3.0
   font_awesome_flutter: ^10.8.0
   intl_phone_field: ^3.2.0
+  supabase_flutter: ^2.8.3
+  gallery_picker: ^0.5.1
  
   
   

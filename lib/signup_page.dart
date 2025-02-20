@@ -171,7 +171,7 @@ class _SignupState extends State<Signup> {
                                   width: 2,
                                   color: Color.fromRGBO(245, 222, 179, 1))),
                           labelStyle: TextStyle(
-                            color: Colors.blue,
+                            color: Colors.black54,
                           ),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(

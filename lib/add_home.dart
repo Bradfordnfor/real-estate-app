@@ -187,30 +187,6 @@ class _AddAHomeState extends State<AddAHome> {
                 style: TextStyle(color: Colors.black),
               ),
             ),
-            // Padding(
-            //   padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60),
-            //   child: TextField(
-            //     maxLines: 2,
-            //     decoration: InputDecoration(
-            //       labelText: 'Home Description',
-            //       labelStyle: GoogleFonts.raleway(
-            //         color: const Color.fromRGBO(0, 0, 0, 0.5),
-            //         fontSize: 20,
-            //       ),
-            //       filled: true,
-            //       fillColor: Color.fromRGBO(245, 222, 179, 0.05),
-            //       enabledBorder: OutlineInputBorder(
-            //           borderRadius: BorderRadius.circular(15),
-            //           borderSide: BorderSide(width: 1, color: Colors.blue)),
-            //       focusedBorder: OutlineInputBorder(
-            //           borderSide: BorderSide(
-            //             color: Colors.blue,
-            //           ),
-            //           borderRadius: BorderRadius.circular(10)),
-            //     ),
-            //     style: TextStyle(color: Colors.black),
-            //   ),
-            // ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 60),
               child: IntlPhoneField(
@@ -234,7 +210,6 @@ class _AddAHomeState extends State<AddAHome> {
                 style: TextStyle(color: Colors.black),
               ),
             ),
-
             Spacer(),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -258,7 +233,7 @@ class _AddAHomeState extends State<AddAHome> {
                     child: Text(
                       'Proceed',
                       style: GoogleFonts.raleway(
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w600,
                           color: Colors.white,
                           fontSize: 15),
                     ))
