@@ -4,6 +4,7 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:real_estate_app/add_home2.dart';
 import 'package:real_estate_app/appbar.dart';
 import 'package:get/get.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AddAHome extends StatefulWidget {
   const AddAHome({super.key});

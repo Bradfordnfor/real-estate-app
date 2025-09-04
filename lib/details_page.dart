@@ -89,7 +89,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 linkColor: Colors.blue,
                 expandText: "show more",
                 collapseText: "...show less",
-                'The Awirna Flats complex is a 1-floor clasic studion with very spacious units. The rent is paid yearly; thats is , an initial deposit of 12 months and 1 month caution fee in addition to XAF 60,000 for a yearly water bill is deposited along making a total deposit of XAF 970,000.Each unit takes care of their light bill. It is situated at untarred malingo beside white house',
+                'The Awirna Flats complex is a 1-floor clasic studio with very spacious units. The rent is paid yearly; thats is , an initial deposit of 12 months and 1 month caution fee in addition to XAF 60,000 for a yearly water bill is deposited along making a total deposit of XAF 970,000.Each unit takes care of their light bill. It is situated at untarred malingo beside white house',
                 style: GoogleFonts.raleway(
                     fontWeight: FontWeight.w300, fontSize: 20),
               ),
