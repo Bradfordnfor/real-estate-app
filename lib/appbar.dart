@@ -18,7 +18,8 @@ class _MyAppBarState extends State<MyAppBar> {
       centerTitle: true,
       backgroundColor: Colors.blue,
       shadowColor: Colors.grey,
-      automaticallyImplyLeading: false, // Remove drawer icon completely
+      automaticallyImplyLeading:
+          isWideScreen ? false : true, // Show drawer icon on small screens
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(15),
