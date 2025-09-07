@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:real_estate_app/constants/app_colors.dart';
 
 class MyAppBar extends StatefulWidget {
   const MyAppBar({super.key});
@@ -12,12 +11,14 @@ class MyAppBar extends StatefulWidget {
 class _MyAppBarState extends State<MyAppBar> {
   @override
   Widget build(BuildContext context) {
+    final isWideScreen = MediaQuery.of(context).size.width > 800;
+
     return AppBar(
       iconTheme: IconThemeData(color: Colors.white),
-      elevation: 0,
       centerTitle: true,
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: Colors.blue,
       shadowColor: Colors.grey,
+      automaticallyImplyLeading: false, // Remove drawer icon completely
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(15),
@@ -43,23 +44,24 @@ class _MyAppBarState extends State<MyAppBar> {
             ),
           ),
           Spacer(),
-          IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.home,
-                size: 25,
-                color: Colors.white,
-              )),
-          SizedBox(
-            width: 10,
-          ),
-          IconButton(
-              onPressed: () {},
-              icon: Icon(
-                Icons.notifications,
-                size: 25,
-                color: Colors.white,
-              ))
+          // Only show these icons on small screens
+          if (!isWideScreen) ...[
+            IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.home,
+                  size: 25,
+                  color: Colors.white,
+                )),
+            SizedBox(width: 10),
+            IconButton(
+                onPressed: () {},
+                icon: Icon(
+                  Icons.notifications,
+                  size: 25,
+                  color: Colors.white,
+                ))
+          ],
         ],
       ),
     );

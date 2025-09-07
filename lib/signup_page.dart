@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:real_estate_app/login_page.dart';
+import 'package:real_estate_app/controllers/auth_controller.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -11,8 +12,10 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
+  final AuthController authController = Get.put(AuthController());
   String? _selectedCategory;
   List categories = ['Aspiring tenant', 'House keeper/owner'];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +59,6 @@ class _SignupState extends State<Signup> {
                 decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                        // ignore: deprecated_member_use
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 2,
                         blurRadius: 7,
@@ -66,18 +68,13 @@ class _SignupState extends State<Signup> {
                     color: Color.fromRGBO(60, 163, 247, 0.6),
                     borderRadius: BorderRadius.circular(20)),
                 child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      height: 15,
-                    ),
+                    SizedBox(height: 15),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset('assets/Component 1 (2).png'),
-                        SizedBox(
-                          width: 20,
-                        ),
+                        SizedBox(width: 20),
                         Text(
                           'HOMZ',
                           style: GoogleFonts.ebGaramond(
@@ -88,12 +85,11 @@ class _SignupState extends State<Signup> {
                         )
                       ],
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.only(left: 50, right: 50),
                       child: TextField(
+                        controller: authController.usernameController,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
@@ -115,17 +111,16 @@ class _SignupState extends State<Signup> {
                         cursorColor: Color.fromRGBO(245, 222, 179, 0.5),
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
+                    SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.only(left: 50, right: 50),
                       child: TextField(
+                        controller: authController.emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
-                          labelText: 'Email Adress',
+                          labelText: 'Email Address',
                           labelStyle: TextStyle(
                             color: const Color.fromRGBO(0, 0, 0, 0.5),
                           ),
@@ -143,9 +138,7 @@ class _SignupState extends State<Signup> {
                         cursorColor: Color.fromRGBO(245, 222, 179, 0.5),
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
+                    SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.only(left: 50, right: 50),
                       child: DropdownButtonFormField(
@@ -171,7 +164,7 @@ class _SignupState extends State<Signup> {
                                   width: 2,
                                   color: Color.fromRGBO(245, 222, 179, 1))),
                           labelStyle: TextStyle(
-                            color: Colors.black54,
+                            color: Colors.blue,
                           ),
                           focusedBorder: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -181,12 +174,11 @@ class _SignupState extends State<Signup> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
+                    SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.only(left: 50, right: 50),
                       child: TextField(
+                        controller: authController.passwordController,
                         obscureText: true,
                         decoration: InputDecoration(
                           filled: true,
@@ -209,23 +201,31 @@ class _SignupState extends State<Signup> {
                         cursorColor: Color.fromRGBO(245, 222, 179, 0.5),
                       ),
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        'SIGN UP',
-                        style: TextStyle(
-                          fontSize: 25,
-                          color: Color.fromRGBO(245, 222, 179, 1),
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    SizedBox(height: 10),
+                    Obx(() => TextButton(
+                          onPressed: authController.isLoading.value
+                              ? null
+                              : () {
+                                  if (_selectedCategory != null) {
+                                    authController.signUp(_selectedCategory!);
+                                  } else {
+                                    Get.snackbar(
+                                        'Error', 'Please select a category');
+                                  }
+                                },
+                          child: authController.isLoading.value
+                              ? CircularProgressIndicator(
+                                  color: Color.fromRGBO(245, 222, 179, 1))
+                              : Text(
+                                  'SIGN UP',
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    color: Color.fromRGBO(245, 222, 179, 1),
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                        )),
+                    SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -235,7 +235,7 @@ class _SignupState extends State<Signup> {
                         ),
                         TextButton(
                           onPressed: () {
-                            Get.to(Login1());
+                            Get.to(() => Login1());
                           },
                           child: Text(
                             'SIGN IN',

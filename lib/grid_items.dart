@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import 'package:real_estate_app/details_page.dart';
+import 'package:real_estate_app/controllers/property_controller.dart';
 
 class GridItems extends StatefulWidget {
   const GridItems({super.key});
@@ -11,108 +12,41 @@ class GridItems extends StatefulWidget {
 }
 
 class _GridItemsState extends State<GridItems> {
-  final List<Map<String, dynamic>> homeDetails = [
-    {
-      "name": "Awirna flats",
-      "type": "studio",
-      "price": "XAF70,000/month",
-      "location": "untarred malingo",
-      "image": "assets/im13.jpeg"
-    },
-    {
-      "name": "Aw",
-      "type": "studio",
-      "price": "XAF70,000/month",
-      "location": "untarred malingo",
-      "image": "assets/im12.jpeg"
-    },
-    {
-      "name": "Awi",
-      "type": "studio",
-      "price": "XAF70,000/month",
-      "location": "untarred malingo",
-      "image": "assets/im11.jpeg"
-    },
-    {
-      "name": "Awir",
-      "type": "studio",
-      "price": "XAF70,000/month",
-      "location": "untarred malingo",
-      "image": "assets/im10.jpeg"
-    },
-    {
-      "name": "Awirn",
-      "type": "studio",
-      "price": "XAF70,000/month",
-      "location": "untarred malingo",
-      "image": "assets/im9.jpeg"
-    },
-    {
-      "name": "Awirna ",
-      "type": "studio",
-      "price": "XAF70,000/month",
-      "location": "untarred malingo",
-      "image": "assets/im8.jpeg"
-    },
-    {
-      "name": "Awirna f",
-      "type": "studio",
-      "price": "XAF70,000/month",
-      "location": "untarred malingo",
-      "image": "assets/im7.jpeg"
-    },
-    {
-      "name": "Awirna fl",
-      "type": "studio",
-      "price": "XAF70,000/month",
-      "location": "untarred malingo",
-      "image": "assets/im6.jpeg"
-    },
-    {
-      "name": "Awirna fla",
-      "type": "studio",
-      "price": "XAF70,000/month",
-      "location": "untarred malingo",
-      "image": "assets/im5.jpeg"
-    },
-    {
-      "name": "Awirna flat",
-      "type": "studio",
-      "price": "XAF70,000/month",
-      "location": "untarred malingo",
-      "image": "assets/im4.jpeg"
-    },
-    {
-      "name": "Awirna flats",
-      "type": "studio",
-      "price": "XAF70,000/month",
-      "location": "untarred malingo",
-      "image": "assets/im3.jpeg"
-    },
-    {
-      "name": "Awirna flats12",
-      "type": "studio",
-      "price": "XAF70,000/month",
-      "location": "untarred malingo",
-      "image": "assets/im2.jpeg"
-    },
-  ];
+  final PropertyController propertyController = Get.find<PropertyController>();
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
+    return Obx(() {
+      if (propertyController.isLoading.value) {
+        return Center(child: CircularProgressIndicator());
+      }
+
+      if (propertyController.filteredProperties.isEmpty) {
+        return Center(
+          child: Text(
+            'No properties available',
+            style: GoogleFonts.raleway(
+              fontSize: 18,
+              fontWeight: FontWeight.w500,
+              color: Colors.grey,
+            ),
+          ),
+        );
+      }
+
+      return GridView.builder(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: 5,
           mainAxisExtent: 330,
         ),
-        itemCount: homeDetails.length,
+        itemCount: propertyController.filteredProperties.length,
         itemBuilder: (context, position) {
+          final property = propertyController.filteredProperties[position];
+
           return Card(
             color: Colors.blue,
             elevation: 5,
-
-            // ignore: deprecated_member_use
             shadowColor: Colors.grey.withOpacity(0.5),
             child: Column(
               children: [
@@ -120,32 +54,65 @@ class _GridItemsState extends State<GridItems> {
                   padding: const EdgeInsets.all(5.0),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12),
-                    child: Image.asset(
-                      "${homeDetails.elementAt(position)['image']}",
-                      width: double.infinity,
-                      height: 200,
-                      fit: BoxFit.cover,
-                    ),
+                    child: property.images.isNotEmpty
+                        ? Image.asset(
+                            property.images.first,
+                            width: double.infinity,
+                            height: 200,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                width: double.infinity,
+                                height: 200,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Icon(
+                                  Icons.home,
+                                  size: 50,
+                                  color: Colors.grey[600],
+                                ),
+                              );
+                            },
+                          )
+                        : Container(
+                            width: double.infinity,
+                            height: 200,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Icon(
+                              Icons.home,
+                              size: 50,
+                              color: Colors.grey[600],
+                            ),
+                          ),
                   ),
                 ),
                 Column(
                   children: [
                     Text(
-                      "${homeDetails.elementAt(position)['name']}",
+                      property.name,
                       style: GoogleFonts.raleway(
                           fontWeight: FontWeight.w700,
                           color: Color.fromRGBO(245, 222, 179, 0.9),
                           fontSize: 17),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Text(
-                      "${homeDetails.elementAt(position)['location']}",
+                      property.location,
                       style: GoogleFonts.raleway(
                           fontWeight: FontWeight.w300,
                           color: Color.fromRGBO(245, 222, 179, 0.9),
                           fontSize: 15),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Text(
-                      "${homeDetails.elementAt(position)['price']}",
+                      property.priceText,
                       style: GoogleFonts.montserrat(
                           fontWeight: FontWeight.w300,
                           color: Colors.white,
@@ -160,7 +127,7 @@ class _GridItemsState extends State<GridItems> {
                             backgroundColor:
                                 Color.fromRGBO(248, 247, 245, 0.694)),
                         onPressed: () {
-                          Get.to(DetailsPage());
+                          Get.to(() => DetailsPage(), arguments: property);
                         },
                         child: Text(
                           'Details',
@@ -173,6 +140,8 @@ class _GridItemsState extends State<GridItems> {
               ],
             ),
           );
-        });
+        },
+      );
+    });
   }
 }

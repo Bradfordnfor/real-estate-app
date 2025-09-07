@@ -29,6 +29,10 @@ class PropertyController extends GetxController {
   final RxString selectedLocation = ''.obs;
   final RxString selectedBudget = ''.obs;
 
+  get selectedImages => null;
+
+  get selectedVideos => null;
+
   @override
   void onInit() {
     super.onInit();
@@ -180,6 +184,25 @@ class PropertyController extends GetxController {
     ownerNameController.clear();
     ownerPhoneController.clear();
     timeController.clear();
+    selectedImages.clear();
+    selectedVideos.clear();
+  }
+
+  // File upload methods
+  void addImagePath(String path) {
+    selectedImages.add(path);
+  }
+
+  void addVideoPath(String path) {
+    selectedVideos.add(path);
+  }
+
+  void removeImage(String path) {
+    selectedImages.remove(path);
+  }
+
+  void removeVideo(String path) {
+    selectedVideos.remove(path);
   }
 
   @override

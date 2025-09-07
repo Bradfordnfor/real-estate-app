@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
-import 'package:real_estate_app/home_page.dart';
 import 'package:real_estate_app/signup_page.dart';
+import 'package:real_estate_app/controllers/auth_controller.dart';
 
 class Login1 extends StatefulWidget {
   const Login1({super.key});
@@ -12,7 +12,9 @@ class Login1 extends StatefulWidget {
 }
 
 class _Login1State extends State<Login1> {
+  final AuthController authController = Get.find<AuthController>();
   bool isChecked = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +58,6 @@ class _Login1State extends State<Login1> {
                 decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
-                        // ignore: deprecated_member_use
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 2,
                         blurRadius: 7,
@@ -72,9 +73,7 @@ class _Login1State extends State<Login1> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Image.asset('assets/Component 1 (2).png'),
-                        SizedBox(
-                          width: 20,
-                        ),
+                        SizedBox(width: 20),
                         Text(
                           'HOMZ',
                           style: GoogleFonts.ebGaramond(
@@ -85,16 +84,15 @@ class _Login1State extends State<Login1> {
                         )
                       ],
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
+                    SizedBox(height: 20),
                     Padding(
                       padding: const EdgeInsets.only(left: 50, right: 50),
                       child: TextField(
+                        controller: authController.loginUsernameController,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
-                          labelText: 'User name',
+                          labelText: 'User name or Email',
                           labelStyle: TextStyle(
                             color: const Color.fromRGBO(0, 0, 0, 0.5),
                           ),
@@ -113,12 +111,11 @@ class _Login1State extends State<Login1> {
                         style: TextStyle(color: Colors.black),
                       ),
                     ),
-                    SizedBox(
-                      height: 40,
-                    ),
+                    SizedBox(height: 40),
                     Padding(
                       padding: const EdgeInsets.only(left: 50, right: 50),
                       child: TextField(
+                        controller: authController.loginPasswordController,
                         obscureText: true,
                         decoration: InputDecoration(
                           filled: true,
@@ -142,22 +139,23 @@ class _Login1State extends State<Login1> {
                         style: TextStyle(color: Colors.black),
                       ),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Get.to(HomePage());
-                      },
-                      child: Text(
-                        'SIGN IN',
-                        style: TextStyle(
-                          fontSize: 30,
-                          color: Color.fromRGBO(245, 222, 179, 1),
-                          fontWeight: FontWeight.w900,
-                        ),
-                      ),
-                    ),
+                    SizedBox(height: 20),
+                    Obx(() => TextButton(
+                          onPressed: authController.isLoading.value
+                              ? null
+                              : () => authController.signIn(),
+                          child: authController.isLoading.value
+                              ? CircularProgressIndicator(
+                                  color: Color.fromRGBO(245, 222, 179, 1))
+                              : Text(
+                                  'SIGN IN',
+                                  style: TextStyle(
+                                    fontSize: 30,
+                                    color: Color.fromRGBO(245, 222, 179, 1),
+                                    fontWeight: FontWeight.w900,
+                                  ),
+                                ),
+                        )),
                     Padding(
                       padding: const EdgeInsets.only(left: 40, right: 50),
                       child: ListTile(
@@ -189,9 +187,7 @@ class _Login1State extends State<Login1> {
                         ),
                       ),
                     ),
-                    SizedBox(
-                      height: 5,
-                    ),
+                    SizedBox(height: 5),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -201,7 +197,7 @@ class _Login1State extends State<Login1> {
                         ),
                         TextButton(
                           onPressed: () {
-                            Get.to(Signup());
+                            Get.to(() => Signup());
                           },
                           child: Text(
                             'SIGN UP',
@@ -213,6 +209,19 @@ class _Login1State extends State<Login1> {
                           ),
                         )
                       ],
+                    ),
+                    // Temporary debug button
+                    TextButton(
+                      onPressed: () {
+                        authController.debugUsers();
+                      },
+                      child: Text(
+                        'Debug Users',
+                        style: TextStyle(
+                          color: Colors.white70,
+                          fontSize: 12,
+                        ),
+                      ),
                     ),
                   ],
                 ),

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gallery_picker/gallery_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:get/get.dart';
 import 'package:real_estate_app/appbar.dart';
 import 'package:real_estate_app/constants/app_colors.dart';
+import 'package:real_estate_app/controllers/property_controller.dart';
 
 class AddAhome2 extends StatefulWidget {
   const AddAhome2({super.key});
@@ -12,6 +14,8 @@ class AddAhome2 extends StatefulWidget {
 }
 
 class _AddAhome2State extends State<AddAhome2> {
+  final PropertyController propertyController = Get.find<PropertyController>();
+
   bool isActive = false;
   var selectedRadio;
   var selectedRadio2;
@@ -33,6 +37,45 @@ class _AddAhome2State extends State<AddAhome2> {
   }
 
   List<MediaFile> _selectedFiles = [];
+
+  // Helper functions to get radio button text
+  String getBillsText() {
+    switch (selectedRadio) {
+      case 1:
+        return 'Included in rent fee';
+      case 2:
+        return 'Not included in rent fee';
+      default:
+        return '';
+    }
+  }
+
+  String getWaterText() {
+    switch (selectedRadio2) {
+      case 1:
+        return 'Constant water flow indoors';
+      case 2:
+        return 'Constant water flow outdoors';
+      case 3:
+        return 'water flow is not constant/no water';
+      default:
+        return '';
+    }
+  }
+
+  String getPropertyStateText() {
+    switch (selectedRadio3) {
+      case 1:
+        return 'New property';
+      case 2:
+        return 'Renewed property';
+      case 3:
+        return 'Old property';
+      default:
+        return '';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -265,6 +308,9 @@ class _AddAhome2State extends State<AddAhome2> {
                             onChanged: (value) {
                               setState(() {
                                 time = value as String;
+                                // Store time in PropertyController
+                                propertyController.timeController.text =
+                                    time ?? '';
                               });
                             }),
                       ),
@@ -272,6 +318,7 @@ class _AddAhome2State extends State<AddAhome2> {
                         padding:
                             EdgeInsets.only(left: 10.0, top: 20, right: 10),
                         child: TextField(
+                          controller: propertyController.descriptionController,
                           maxLines: 2,
                           decoration: InputDecoration(
                             suffixIcon: Icon(
@@ -350,46 +397,151 @@ class _AddAhome2State extends State<AddAhome2> {
                           ),
                         ),
                       ),
-                      _selectedFiles != Null
-                          ? SizedBox(
-                              height: 100,
-                              child: ListView.builder(
-                                  padding: EdgeInsets.only(left: 10),
-                                  itemCount: _selectedFiles.length,
-                                  scrollDirection: Axis.horizontal,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 10.0, horizontal: 5),
-                                      child: Container(
-                                        height: 80,
-                                        width: 80,
-                                        decoration: BoxDecoration(
-                                            color: AppColors.primaryColor),
-                                      ),
-                                    );
-                                  }),
-                            )
-                          : SizedBox(
-                              height: 30,
-                            ),
+                      GetBuilder<PropertyController>(
+                          builder: (controller) => ((_selectedFiles
+                                          ?.isNotEmpty ??
+                                      false) ||
+                                  (controller.selectedImages?.isNotEmpty ??
+                                      false) ||
+                                  (controller.selectedVideos?.isNotEmpty ??
+                                      false))
+                              ? SizedBox(
+                                  height: 100,
+                                  child: ListView.builder(
+                                      padding: EdgeInsets.only(left: 10),
+                                      itemCount: (_selectedFiles.length +
+                                              propertyController
+                                                  .selectedImages.length +
+                                              propertyController
+                                                  .selectedVideos.length)
+                                          .toInt(),
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10.0, horizontal: 5),
+                                          child: Container(
+                                            height: 80,
+                                            width: 80,
+                                            decoration: BoxDecoration(
+                                                color: AppColors.primaryColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(8)),
+                                            child: Stack(
+                                              children: [
+                                                Center(
+                                                  child: Icon(
+                                                    index <
+                                                            propertyController
+                                                                .selectedImages
+                                                                .length
+                                                        ? Icons.image
+                                                        : Icons.video_file,
+                                                    color: Colors.white,
+                                                    size: 30,
+                                                  ),
+                                                ),
+                                                Positioned(
+                                                  top: 2,
+                                                  right: 2,
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      if (index <
+                                                          propertyController
+                                                              .selectedImages
+                                                              .length) {
+                                                        propertyController
+                                                            .removeImage(
+                                                                propertyController
+                                                                        .selectedImages[
+                                                                    index]);
+                                                      } else {
+                                                        propertyController.removeVideo(
+                                                            propertyController
+                                                                    .selectedVideos[
+                                                                index -
+                                                                    propertyController
+                                                                        .selectedImages
+                                                                        .length]);
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                      padding:
+                                                          EdgeInsets.all(2),
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.red,
+                                                        shape: BoxShape.circle,
+                                                      ),
+                                                      child: Icon(
+                                                        Icons.close,
+                                                        color: Colors.white,
+                                                        size: 12,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      }),
+                                )
+                              : SizedBox(
+                                  height: 30,
+                                )),
                       Center(
-                        child: Container(
-                          height: 50,
-                          width: 300,
-                          decoration: BoxDecoration(
-                              color: Colors.blue,
-                              borderRadius: BorderRadius.circular(15)),
-                          child: TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                'Add property',
-                                style: GoogleFonts.raleway(
-                                    fontWeight: FontWeight.w800,
-                                    color: Colors.white,
-                                    fontSize: 17),
-                              )),
-                        ),
+                        child: Obx(() => Container(
+                              height: 50,
+                              width: 300,
+                              decoration: BoxDecoration(
+                                  color: Colors.blue,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: TextButton(
+                                  onPressed: propertyController.isLoading.value
+                                      ? null
+                                      : () async {
+                                          // Combine additional info with description
+                                          String fullDescription =
+                                              propertyController
+                                                  .descriptionController.text;
+                                          if (getBillsText().isNotEmpty) {
+                                            fullDescription +=
+                                                '\n\nBills: ${getBillsText()}';
+                                          }
+                                          if (getWaterText().isNotEmpty) {
+                                            fullDescription +=
+                                                '\nWater: ${getWaterText()}';
+                                          }
+                                          if (getPropertyStateText()
+                                              .isNotEmpty) {
+                                            fullDescription +=
+                                                '\nProperty State: ${getPropertyStateText()}';
+                                          }
+                                          if (time != null) {
+                                            fullDescription +=
+                                                '\nWalking time from main road: $time';
+                                          }
+
+                                          // Update the description with combined info
+                                          propertyController
+                                              .descriptionController
+                                              .text = fullDescription;
+
+                                          // Submit the property
+                                          await propertyController
+                                              .addProperty();
+                                        },
+                                  child: propertyController.isLoading.value
+                                      ? CircularProgressIndicator(
+                                          color: Colors.white)
+                                      : Text(
+                                          'Add property',
+                                          style: GoogleFonts.raleway(
+                                              fontWeight: FontWeight.w800,
+                                              color: Colors.white,
+                                              fontSize: 17),
+                                        )),
+                            )),
                       ),
                       SizedBox(
                         height: 20,

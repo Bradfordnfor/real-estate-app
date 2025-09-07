@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:real_estate_app/add_home2.dart';
-import 'package:real_estate_app/appbar.dart';
 import 'package:get/get.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:real_estate_app/appbar.dart';
+import 'package:real_estate_app/controllers/property_controller.dart';
+import 'package:real_estate_app/add_home2.dart';
+import 'package:real_estate_app/responsive_layout.dart';
 
 class AddAHome extends StatefulWidget {
   const AddAHome({super.key});
@@ -14,236 +14,366 @@ class AddAHome extends StatefulWidget {
 }
 
 class _AddAHomeState extends State<AddAHome> {
-  String? _homeType;
-  String? initialDeposit;
-  List homeTypes = ['Single rooms', 'studio', 'apartment'];
-  List months = ['3 months', '6 months', '8 months', '10 months', '12 months'];
+  final PropertyController propertyController = Get.put(PropertyController());
+
+  // Home type options
+  final List<String> homeTypes = [
+    'studio',
+    'apartment',
+    'house',
+    'villa',
+    'duplex',
+    'single room'
+  ];
+  String? selectedHomeType;
+
+  // Cameroon Cities
+  final List<String> cameroonCities = [
+    'Yaoundé',
+    'Douala',
+    'Bamenda',
+    'Bafoussam',
+    'Garoua',
+    'Maroua',
+    'Ngaoundéré',
+    'Kumba',
+    'Buea',
+    'Limbe',
+    'Dschang',
+    'Ebolowa',
+    'Bertoua',
+    'Kribi',
+    'Edéa',
+    'Foumban',
+    'Mbouda',
+    'Batouri',
+    'Sangmélima',
+    'Loum',
+    'Kumbo',
+    'Nkongsamba',
+    'Mbalmayo',
+    'Meiganga',
+    'Wum',
+    'Banyo',
+    'Mokolo',
+    'Mora',
+    'Kousséri',
+    'Guider',
+    'Kaélé',
+    'Yagoua',
+    'Poli',
+    'Tcholliré',
+    'Rey Bouba',
+    'Tibati',
+    'Tignère',
+    'Bankim',
+    'Mayo-Oulo',
+    'Touboro',
+  ];
+  String? selectedCity;
+
+  // Validation function
+  bool _validateStep1() {
+    if (selectedHomeType == null || selectedHomeType!.isEmpty) {
+      Get.snackbar('Error', 'Please select home type');
+      return false;
+    }
+    if (propertyController.nameController.text.trim().isEmpty) {
+      Get.snackbar('Error', 'Please enter property name');
+      return false;
+    }
+    if (propertyController.priceController.text.trim().isEmpty) {
+      Get.snackbar('Error', 'Please enter price per month');
+      return false;
+    }
+    if (propertyController.descriptionController.text.trim().isEmpty) {
+      Get.snackbar('Error', 'Please enter home description');
+      return false;
+    }
+    if (propertyController.ownerPhoneController.text.trim().isEmpty) {
+      Get.snackbar('Error', 'Please enter your phone number');
+      return false;
+    }
+    if (selectedCity == null || selectedCity!.isEmpty) {
+      Get.snackbar('Error', 'Please select city');
+      return false;
+    }
+    if (propertyController.quarterController.text.trim().isEmpty) {
+      Get.snackbar('Error', 'Please enter quarter');
+      return false;
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blue.shade50,
+    return ResponsiveLayout(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: MyAppBar(),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          children: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20, bottom: 10),
-                child: Text(
-                  'Make your empty unit visible.',
-                  style: GoogleFonts.raleway(
-                    fontWeight: FontWeight.w400,
-                    color: Colors.blue,
-                    fontSize: 25,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            children: [
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 20, bottom: 30),
+                  child: Text(
+                    'Make your empty unit visible.',
+                    style: GoogleFonts.raleway(
+                      fontWeight: FontWeight.w400,
+                      color: Colors.blue,
+                      fontSize: 25,
+                    ),
                   ),
                 ),
               ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 60),
-              child: DropdownButtonFormField(
-                items: homeTypes.map((homeType) {
-                  return DropdownMenuItem(
-                    value: homeType,
-                    child: Text(homeType),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _homeType = value as String;
-                  });
-                },
-                value: _homeType,
-                decoration: InputDecoration(
-                  labelText: 'Home Type',
-                  labelStyle: GoogleFonts.raleway(
-                    color: const Color.fromRGBO(0, 0, 0, 0.5),
-                    fontSize: 20,
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: DropdownButtonFormField<String>(
+                  value: selectedHomeType,
+                  decoration: InputDecoration(
+                    labelText: 'Home Type',
+                    labelStyle: GoogleFonts.raleway(
+                      color: const Color.fromRGBO(0, 0, 0, 0.5),
+                      fontSize: 20,
+                    ),
+                    filled: true,
+                    fillColor: Color.fromRGBO(245, 222, 179, 0.05),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(width: 1, color: Colors.blue)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.blue,
+                        ),
+                        borderRadius: BorderRadius.circular(10)),
                   ),
-                  filled: true,
-                  fillColor: Colors.white30,
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(width: 1, color: Colors.blue)),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.blue,
+                  items: homeTypes.map((type) {
+                    return DropdownMenuItem(
+                      value: type,
+                      child: Text(type.toUpperCase()),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      selectedHomeType = value;
+                      propertyController.homeTypeController.text = value ?? '';
+                    });
+                  },
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: TextField(
+                  controller: propertyController.nameController,
+                  decoration: InputDecoration(
+                    labelText: 'Name',
+                    labelStyle: GoogleFonts.raleway(
+                      color: const Color.fromRGBO(0, 0, 0, 0.5),
+                      fontSize: 20,
+                    ),
+                    filled: true,
+                    fillColor: Color.fromRGBO(245, 222, 179, 0.05),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(width: 1, color: Colors.blue)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.blue,
+                        ),
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
+                  cursorColor: Color.fromRGBO(245, 222, 179, 0.5),
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: TextField(
+                  controller: propertyController.priceController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Price per month',
+                    labelStyle: GoogleFonts.raleway(
+                      color: const Color.fromRGBO(0, 0, 0, 0.5),
+                      fontSize: 20,
+                    ),
+                    filled: true,
+                    fillColor: Color.fromRGBO(245, 222, 179, 0.05),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(width: 1, color: Colors.blue)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.blue,
+                        ),
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
+                  cursorColor: Color.fromRGBO(245, 222, 179, 0.5),
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: TextField(
+                  controller: propertyController.descriptionController,
+                  maxLines: 2,
+                  decoration: InputDecoration(
+                    labelText: 'Home Description',
+                    labelStyle: GoogleFonts.raleway(
+                      color: const Color.fromRGBO(0, 0, 0, 0.5),
+                      fontSize: 20,
+                    ),
+                    filled: true,
+                    fillColor: Color.fromRGBO(245, 222, 179, 0.05),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(width: 1, color: Colors.blue)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.blue,
+                        ),
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
+                  cursorColor: Color.fromRGBO(245, 222, 179, 0.5),
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: TextField(
+                  controller: propertyController.ownerPhoneController,
+                  keyboardType: TextInputType.phone,
+                  decoration: InputDecoration(
+                    labelText: 'Your Phone Number',
+                    labelStyle: GoogleFonts.raleway(
+                      color: const Color.fromRGBO(0, 0, 0, 0.5),
+                      fontSize: 20,
+                    ),
+                    filled: true,
+                    fillColor: Color.fromRGBO(245, 222, 179, 0.05),
+                    enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15),
+                        borderSide: BorderSide(width: 1, color: Colors.blue)),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.blue,
+                        ),
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
+                  cursorColor: Color.fromRGBO(245, 222, 179, 0.5),
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: DropdownButtonFormField<String>(
+                        value: selectedCity,
+                        decoration: InputDecoration(
+                          labelText: 'City/Town',
+                          labelStyle: GoogleFonts.raleway(
+                            color: const Color.fromRGBO(0, 0, 0, 0.5),
+                            fontSize: 18,
+                          ),
+                          filled: true,
+                          fillColor: Color.fromRGBO(245, 222, 179, 0.05),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.blue)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.blue,
+                              ),
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                        items: cameroonCities.map((city) {
+                          return DropdownMenuItem(
+                            value: city,
+                            child: Text(city),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            selectedCity = value;
+                            propertyController.cityController.text =
+                                value ?? '';
+                          });
+                        },
+                        style: TextStyle(color: Colors.black),
+                        isExpanded: true,
+                        menuMaxHeight: 200,
                       ),
-                      borderRadius: BorderRadius.circular(10)),
-                ),
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 60),
-              child: TextField(
-                decoration: InputDecoration(
-                  labelText: 'Name',
-                  labelStyle: GoogleFonts.raleway(
-                    color: const Color.fromRGBO(0, 0, 0, 0.5),
-                    fontSize: 20,
+                    ),
                   ),
-                  filled: true,
-                  fillColor: Colors.white30,
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(width: 1, color: Colors.blue)),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.blue,
+                  Expanded(
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(right: 20, top: 20, bottom: 20),
+                      child: TextField(
+                        controller: propertyController.quarterController,
+                        decoration: InputDecoration(
+                          labelText: 'Quarter',
+                          labelStyle: GoogleFonts.raleway(
+                            color: const Color.fromRGBO(0, 0, 0, 0.5),
+                            fontSize: 18,
+                          ),
+                          filled: true,
+                          fillColor: Color.fromRGBO(245, 222, 179, 0.05),
+                          enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide:
+                                  BorderSide(width: 1, color: Colors.blue)),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.blue,
+                              ),
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                        cursorColor: Color.fromRGBO(245, 222, 179, 0.5),
+                        style: TextStyle(color: Colors.black),
                       ),
-                      borderRadius: BorderRadius.circular(10)),
-                ),
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 60),
-              child: TextField(
-                keyboardType: TextInputType.numberWithOptions(),
-                decoration: InputDecoration(
-                  labelText: 'Price per month',
-                  labelStyle: GoogleFonts.raleway(
-                    color: const Color.fromRGBO(0, 0, 0, 0.5),
-                    fontSize: 20,
+                    ),
                   ),
-                  filled: true,
-                  fillColor: Colors.white30,
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(width: 1, color: Colors.blue)),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.blue,
-                      ),
-                      borderRadius: BorderRadius.circular(10)),
-                ),
-                style: TextStyle(color: Colors.black),
+                ],
               ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 60),
-              child: TextField(
-                keyboardType: TextInputType.numberWithOptions(),
-                decoration: InputDecoration(
-                  labelText: 'Caution fee',
-                  labelStyle: GoogleFonts.raleway(
-                    color: const Color.fromRGBO(0, 0, 0, 0.5),
-                    fontSize: 20,
-                  ),
-                  filled: true,
-                  fillColor: Colors.white30,
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(width: 1, color: Colors.blue)),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.blue,
-                      ),
-                      borderRadius: BorderRadius.circular(10)),
-                ),
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 15.0, horizontal: 60),
-              child: DropdownButtonFormField(
-                items: months.map((deposits) {
-                  return DropdownMenuItem(
-                    value: deposits,
-                    child: Text(deposits),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    initialDeposit = value as String;
-                  });
-                },
-                value: initialDeposit,
-                decoration: InputDecoration(
-                  labelText: 'Initial deposit',
-                  labelStyle: GoogleFonts.raleway(
-                    color: const Color.fromRGBO(0, 0, 0, 0.5),
-                    fontSize: 20,
-                  ),
-                  filled: true,
-                  fillColor: Colors.white30,
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(width: 1, color: Colors.blue)),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.blue,
-                      ),
-                      borderRadius: BorderRadius.circular(10)),
-                ),
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 15.0, horizontal: 60),
-              child: IntlPhoneField(
-                decoration: InputDecoration(
-                  labelText: 'Phone number',
-                  labelStyle: GoogleFonts.raleway(
-                    color: const Color.fromRGBO(0, 0, 0, 0.5),
-                    fontSize: 20,
-                  ),
-                  filled: true,
-                  fillColor: Colors.white30,
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(15),
-                      borderSide: BorderSide(width: 1, color: Colors.blue)),
-                  focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Colors.blue,
-                      ),
-                      borderRadius: BorderRadius.circular(10)),
-                ),
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-            Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Just a few clicks away...',
-                  style: GoogleFonts.raleway(
-                    color: const Color.fromRGBO(0, 0, 0, 0.5),
-                    fontSize: 15,
-                  ),
-                ),
-                SizedBox(
-                  width: 30,
-                ),
-                TextButton(
-                    style: ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll(Colors.blue)),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: ElevatedButton(
                     onPressed: () {
-                      Get.to(AddAhome2());
+                      if (_validateStep1()) {
+                        Get.to(() => AddAhome2());
+                      }
                     },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
                     child: Text(
-                      'Proceed',
+                      'PROCEED',
                       style: GoogleFonts.raleway(
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                          fontSize: 15),
-                    ))
-              ],
-            ),
-            SizedBox(
-              height: 50,
-            ),
-          ],
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
