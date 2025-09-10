@@ -108,6 +108,7 @@ class _AddAHomeState extends State<AddAHome> {
   @override
   Widget build(BuildContext context) {
     return ResponsiveLayout(
+      backgroundColor: Colors.blue.shade50,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(60),
         child: MyAppBar(),
@@ -223,6 +224,12 @@ class _AddAHomeState extends State<AddAHome> {
                   controller: propertyController.descriptionController,
                   maxLines: 2,
                   decoration: InputDecoration(
+                    helperText:
+                        "Provide other advantages/inconveniencies of the property ",
+                    helperStyle: GoogleFonts.raleway(
+                      color: const Color.fromRGBO(0, 0, 0, 0.8),
+                      fontSize: 15,
+                    ),
                     labelText: 'Home Description',
                     labelStyle: GoogleFonts.raleway(
                       color: const Color.fromRGBO(0, 0, 0, 0.5),

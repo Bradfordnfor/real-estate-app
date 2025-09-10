@@ -398,9 +398,7 @@ class _AddAhome2State extends State<AddAhome2> {
                         ),
                       ),
                       GetBuilder<PropertyController>(
-                          builder: (controller) => ((_selectedFiles
-                                          ?.isNotEmpty ??
-                                      false) ||
+                          builder: (controller) => (_selectedFiles.isNotEmpty ||
                                   (controller.selectedImages?.isNotEmpty ??
                                       false) ||
                                   (controller.selectedVideos?.isNotEmpty ??

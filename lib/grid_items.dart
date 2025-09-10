@@ -127,6 +127,7 @@ class _GridItemsState extends State<GridItems> {
                             backgroundColor:
                                 Color.fromRGBO(248, 247, 245, 0.694)),
                         onPressed: () {
+                          // Pass property data to details page
                           Get.to(() => DetailsPage(), arguments: property);
                         },
                         child: Text(

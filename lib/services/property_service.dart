@@ -93,11 +93,11 @@ class PropertyService {
         price: 70000,
         descript:
             'The Awirna Flats complex is a 1-floor classic studio with very spacious units.',
-        city: 'Yaoundé',
+        city: 'Buea',
         quarter: 'untarred malingo',
         caution: 70000,
         contact: '+237123456789',
-        ownerName: 'Nfor Bradford',
+        ownerName: 'Nfor Solomon',
         ownerWhatsapp: '+237123456789',
         images: ['assets/im13.jpeg'],
         videos: [],

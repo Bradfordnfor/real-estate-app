@@ -322,6 +322,72 @@ class ResponsiveLayout extends StatelessWidget {
               padding: EdgeInsets.zero,
               children: [
                 ListTile(
+                  leading: Icon(Icons.search, color: Colors.blue),
+                  title: Text('Search Properties'),
+                  onTap: () {
+                    Get.back();
+                    _performSearch();
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.search, color: Colors.blue),
+                  title: Text('Search Properties'),
+                  onTap: () {
+                    Get.back();
+                    _performSearch();
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.notifications, color: Colors.blue),
+                  title: Text('Notifications'),
+                  onTap: () {
+                    Get.back();
+                    _showNotifications();
+                  },
+                ),
+                Divider(),
+                ListTile(
+                  leading: Icon(Icons.person, color: Colors.blue),
+                  title: Text('Profile'),
+                  onTap: () {
+                    Get.back();
+                    _showProfile();
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.settings, color: Colors.blue),
+                  title: Text('Settings'),
+                  onTap: () {
+                    Get.back();
+                    _showSettings();
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.notifications, color: Colors.blue),
+                  title: Text('Notifications'),
+                  onTap: () {
+                    Get.back();
+                    _showNotifications();
+                  },
+                ),
+                Divider(),
+                ListTile(
+                  leading: Icon(Icons.person, color: Colors.blue),
+                  title: Text('Profile'),
+                  onTap: () {
+                    Get.back();
+                    _showProfile();
+                  },
+                ),
+                ListTile(
+                  leading: Icon(Icons.settings, color: Colors.blue),
+                  title: Text('Settings'),
+                  onTap: () {
+                    Get.back();
+                    _showSettings();
+                  },
+                ),
+                ListTile(
                   leading: Icon(Icons.home, color: Colors.blue),
                   title: Text('Home'),
                   onTap: () {

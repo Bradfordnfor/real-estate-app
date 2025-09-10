@@ -147,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                 Image.asset(
                   'assets/Component 1 (2).png',
                   height: 60,
-                  width: 60,
+                  width: double.infinity,
                 ),
                 SizedBox(height: 10),
                 Text(

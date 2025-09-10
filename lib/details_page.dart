@@ -65,7 +65,7 @@ class _DetailsPageState extends State<DetailsPage> {
     if (property == null) {
       return SafeArea(
         child: ResponsiveLayout(
-          backgroundColor: Color.fromRGBO(245, 222, 179, 0.3),
+          backgroundColor: Colors.blue.shade50,
           appBar: PreferredSize(
             preferredSize: const Size.fromHeight(60),
             child: MyAppBar(),
@@ -82,7 +82,7 @@ class _DetailsPageState extends State<DetailsPage> {
 
     return SafeArea(
       child: ResponsiveLayout(
-        backgroundColor: Color.fromRGBO(245, 222, 179, 0.3),
+        backgroundColor: Colors.blue.shade50,
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(60),
           child: MyAppBar(),
