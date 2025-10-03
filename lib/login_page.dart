@@ -156,10 +156,11 @@ class _Login1State extends State<Login1> with TickerProviderStateMixin {
                             TextField(
                               controller:
                                   authController.loginUsernameController,
+                              keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
                                 filled: true,
                                 fillColor: Colors.white,
-                                labelText: 'User name or Email',
+                                labelText: 'Email Address',
                                 labelStyle: TextStyle(
                                   color: const Color.fromRGBO(0, 0, 0, 0.5),
                                 ),

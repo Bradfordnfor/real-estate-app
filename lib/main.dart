@@ -6,8 +6,23 @@ import 'package:get/get.dart';
 import 'package:real_estate_app/signup_page.dart';
 import 'package:real_estate_app/controllers/property_controller.dart';
 import 'package:real_estate_app/controllers/auth_controller.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:real_estate_app/supabase_config.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  if (!isSupabaseConfigured) {
+    // App will still run, but auth calls will error until configured
+    debugPrint('Supabase configuration missing. Provide SUPABASE_URL and SUPABASE_ANON_KEY.');
+  } else {
+    await Supabase.initialize(
+      url: supabaseUrl,
+      anonKey: supabaseAnonKey,
+      authOptions: const FlutterAuthClientOptions(authFlowType: AuthFlowType.pkce),
+    );
+  }
+
   runApp(const MyApp());
 }
 
